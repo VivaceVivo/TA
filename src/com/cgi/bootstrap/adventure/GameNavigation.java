@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class GameNavigation implements Navigation{
-    private Map<Direction, GamePlace> exits;
+    private Map<Direction, Place> exits;
     private boolean seen;
 
     public GameNavigation(){
@@ -13,26 +13,28 @@ public class GameNavigation implements Navigation{
          seen = false;
     }
 
+    @Override
     public boolean isSeen() {
         return seen;
+    }
+
+    @Override
+    public Place goInDirection(Direction direction){
+        return exits.get(direction);
+    }
+
+    @Override
+    public Set<Direction> getExitDirections(){
+        return exits.keySet();
+    }
+
+    // additional "hidden" methods
+    public void addExit(Direction direction, Place neighbour) {
+        exits.put(direction, neighbour);
     }
 
     public void markAsSeen() {
         seen = true;
     }
-
-    public NavigationPlace goInDirection(Direction direction){
-        return exits.get(direction);
-    }
-
-    public Set<Direction> getExitDirections(){
-        return exits.keySet();
-    }
-
-    public void addExit(GamePlace here, Direction direction, GamePlace neighbour) {
-        exits.put(direction, neighbour);
-    }
-
-
 
 }

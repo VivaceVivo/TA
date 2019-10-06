@@ -11,5 +11,6 @@ public class BottomlessPit extends GamePlace{
                 "Die helle Scheibe der Öffnung wird rasant kleiner, " +
                 "bis sie zu einem einzigen Punkt schrumpft, der langsam verblasst...";
     }
-    protected void addBack(Direction direction, GamePlace neighbour){}
+    @Override
+    public void addBack(Direction direction, GamePlace neighbour){}
 }

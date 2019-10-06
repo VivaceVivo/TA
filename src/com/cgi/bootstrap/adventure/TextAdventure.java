@@ -5,7 +5,7 @@ import java.io.PrintStream;
 
 public class TextAdventure {
 
-    private NavigationPlace currentPlace;
+    private Place currentPlace;
     private boolean alive;
     private PrintStream out;
     private StringNormalizer normalizer;
@@ -43,9 +43,9 @@ public class TextAdventure {
         Room room = new Room("Langweiliger Raum", "Ein beeindruckend langweiliger Raum.");
         BottomlessPit pit = new BottomlessPit("Endloses Loch");
 
-        room.addExit(Direction.SOUTH, pit);
-        path.addExit(Direction.WEST, room);
-        start.addExit(Direction.NORTH, path);
+        room.linkPlace(Direction.SOUTH, pit);
+        path.linkPlace(Direction.WEST, room);
+        start.linkPlace(Direction.NORTH, path);
         currentPlace = start;
     }
 
@@ -60,13 +60,13 @@ public class TextAdventure {
         }
     }
 
-    private NavigationPlace processInput() {
+    private Place processInput() {
         Scanner scanner = new Scanner(System.in);
         String line = scanner.nextLine();
         String command = normalizer.normalize(line);
         Direction dir = Direction.valueOf(command);
         if (dir != null){
-            NavigationPlace next = currentPlace.goInDirection(dir);
+            Place next = currentPlace.getNavigation().goInDirection(dir);
             if(next != null) {
                 out.println("Gehe in Richtung "+dir+" nach "+next.getName()+".");
                 return next;
