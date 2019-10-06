@@ -1,15 +1,15 @@
 package com.cgi.bootstrap.adventure;
 
-public class Path extends Place {
+public class Path extends GamePlace {
 
-    private String description;
+    private String detail;
 
-    public void setDescription(final String description) {
-        this.description = description;
+    public Path(String name){
+        super(name);
     }
 
     public String getDescription(){
-        return description+"\nDer Pfad ist nur fast grade. Also eigentlich gar nicht.";
+        return "Der Pfad ist nur fast grade. Also eigentlich gar nicht.";
     }
 
 }

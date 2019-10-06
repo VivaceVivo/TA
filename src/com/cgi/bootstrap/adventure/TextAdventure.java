@@ -38,17 +38,14 @@ public class TextAdventure {
     }
 
     private void initialize(){
-        Place start = new Room();
-        start.setName("Start");
-        start.setDescription("Es ist ein durchaus guslig aussehenden Raum.");
-        Place p1 = new Path();
-        p1.setName("Le Pfad");
-        p1.setDescription("Ein eher verlassen wirkender Pfad.");
-        start.addExit(Direction.NORTH, p1);
-        Place p2 = new Room();
-        p2.setName("Langweiliger Raum");
-        p2.setDescription("Ein beeindruckend langweiliger Raum.");
-        p1.addExit(Direction.WEST, p2);
+        Room start = new Room("Start", "Es ist ein durchaus gruslig aussehenden Raum.");
+        Path path = new Path("Le Pfad");
+        Room room = new Room("Langweiliger Raum", "Ein beeindruckend langweiliger Raum.");
+        BottomlessPit pit = new BottomlessPit("Endloses Loch");
+
+        room.addExit(Direction.SOUTH, pit);
+        path.addExit(Direction.WEST, room);
+        start.addExit(Direction.NORTH, path);
         currentPlace = start;
     }
 
@@ -56,15 +53,20 @@ public class TextAdventure {
         displayInfo();
         currentPlace.markAsSeen();
         currentPlace = processInput();
+        if(currentPlace.getExitDirections().isEmpty()){
+            displayInfo();
+            alive = false;
+            System.out.println("you die!");
+        }
     }
 
     private Place processInput() {
         Scanner scanner = new Scanner(System.in);
         String line = scanner.nextLine();
         String command = normalizer.normalize(line);
-        Direction dir = Direction.fromString(command);
+        Direction dir = Direction.valueOf(command);
         if (dir != null){
-            Place next = currentPlace.getExits().get(dir);
+            Place next = currentPlace.getExitInDirection(dir);
             if(next != null) {
                 out.println("Gehe in Richtung "+dir+" nach "+next.getName()+".");
                 return next;

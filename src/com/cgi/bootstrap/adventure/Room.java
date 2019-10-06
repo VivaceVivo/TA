@@ -1,15 +1,17 @@
 package com.cgi.bootstrap.adventure;
 
-public class Room extends Place {
+public class Room extends GamePlace {
 
-    private String description;
+    public static final String description = "Wie jeder Raum hat er vier Wände, einen Fußboden und eine Decke.";
+    private String detail;
 
-    public void setDescription(String description) {
-        this.description = description;
+    public Room(String name, String detail){
+        super(name);
+        this.detail = detail;
     }
 
     public String getDescription(){
-        return description+"\nWie jeder Raum hat er vier Wände, einen Fußboden und eine Decke.";
+        return detail +"\n"+description;
     }
 
 }

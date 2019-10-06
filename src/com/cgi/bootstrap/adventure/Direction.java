@@ -26,15 +26,15 @@ public enum Direction {
         return null;
     }
 
-    static Direction fromString(final String s){
-        switch(s){
-            case "NORTH": return NORTH;
-            case "SOUTH": return SOUTH;
-            case "EAST": return EAST;
-            case "WEST": return WEST;
-            case "UP": return UP;
-            case "DOWN": return DOWN;
-        }
-        return null;
-    }
+//    static Direction fromString(final String s){
+//        switch(s){
+//            case "NORTH": return NORTH;
+//            case "SOUTH": return SOUTH;
+//            case "EAST": return EAST;
+//            case "WEST": return WEST;
+//            case "UP": return UP;
+//            case "DOWN": return DOWN;
+//        }
+//        return null;
+//    }
 }
