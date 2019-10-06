@@ -1,5 +1,7 @@
 package com.cgi.bootstrap.adventure;
 
+import java.util.Set;
+
 public class Room extends GamePlace {
 
     public static final String description = "Wie jeder Raum hat er vier Wände, einen Fußboden und eine Decke.";
@@ -13,5 +15,4 @@ public class Room extends GamePlace {
     public String getDescription(){
         return detail +"\n"+description;
     }
-
 }

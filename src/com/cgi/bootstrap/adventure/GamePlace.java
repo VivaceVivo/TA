@@ -1,19 +1,17 @@
 package com.cgi.bootstrap.adventure;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-public abstract class GamePlace implements Place{
+public abstract class GamePlace implements NavigationPlace{
 
     private String name;
-    private Map<Direction, GamePlace> exits;
-    private boolean seen;
+    private GameNavigation navigation;
+
 
     GamePlace(String name){
-        seen = false;
-        this.exits = new HashMap<>();
+
+        this.navigation = new GameNavigation();
+
         this.name = name;
     }
 
@@ -25,7 +23,7 @@ public abstract class GamePlace implements Place{
 
     public String getCompleteDescription() {
         StringBuffer buf = new StringBuffer();
-        if(!isSeen()) {
+        if(!navigation.isSeen()) {
             buf.append("Du befindest Dich in eine(r/m) ");
             buf.append(getClass().getSimpleName());
             buf.append('\n');
@@ -34,7 +32,7 @@ public abstract class GamePlace implements Place{
             buf.append("Du warst hier schon mal.");
         }
         buf.append("\nDu kannst gehen nach:");
-        if(exits.size() == 0){
+        if(navigation.getExitDirections().size() == 0){
             buf.append("\nKein Ausweg.");
         }else {
             getExitDirections().forEach(direction -> {
@@ -45,32 +43,38 @@ public abstract class GamePlace implements Place{
         return buf.toString();
     }
 
-    private boolean isSeen() {
-        return seen;
-    }
-
-    public void markAsSeen() {
-        seen = true;
-    }
-
-    public Place getExitInDirection(Direction direction){
-        return exits.getOrDefault(direction, this);
-    }
-
-    public Set<Direction> getExitDirections(){
-        return exits.keySet();
-    }
-
-    void addExit(Direction direction, GamePlace neighbour) {
-        exits.put(direction, neighbour);
-        neighbour.addBack(direction.back(), this);
-    }
-
-    protected void addBack(Direction direction, GamePlace neighbour) {
-        exits.put(direction, neighbour);
-    }
 
     public String toString(){
         return getClass().getSimpleName()+":"+name;
+    }
+
+    public GameNavigation getNavigation() {
+        return navigation;
+    }
+
+    public void addExit(Direction direction, GamePlace neighbour){
+        getNavigation().addExit(this, direction, neighbour);
+        addBack(direction, neighbour);
+    }
+
+    protected void addBack(Direction direction, GamePlace neighbour) {
+        neighbour.getNavigation().addExit(neighbour, direction.back(), this);
+    }
+
+    // delegate methods:
+
+    @Override
+    public NavigationPlace goInDirection(final Direction direction) {
+        return navigation.goInDirection(direction);
+    }
+
+    @Override
+    public Set<Direction> getExitDirections() {
+        return navigation.getExitDirections();
+    }
+
+    @Override
+    public boolean isSeen() {
+        return navigation.isSeen();
     }
 }

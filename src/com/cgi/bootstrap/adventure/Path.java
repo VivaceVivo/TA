@@ -2,8 +2,6 @@ package com.cgi.bootstrap.adventure;
 
 public class Path extends GamePlace {
 
-    private String detail;
-
     public Path(String name){
         super(name);
     }

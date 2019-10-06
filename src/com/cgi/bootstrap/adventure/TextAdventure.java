@@ -5,7 +5,7 @@ import java.io.PrintStream;
 
 public class TextAdventure {
 
-    private Place currentPlace;
+    private NavigationPlace currentPlace;
     private boolean alive;
     private PrintStream out;
     private StringNormalizer normalizer;
@@ -51,22 +51,22 @@ public class TextAdventure {
 
     private void playerMove(){
         displayInfo();
-        currentPlace.markAsSeen();
+        currentPlace.getNavigation().markAsSeen();
         currentPlace = processInput();
-        if(currentPlace.getExitDirections().isEmpty()){
+        if(currentPlace.getNavigation().getExitDirections().isEmpty()){
             displayInfo();
             alive = false;
             System.out.println("you die!");
         }
     }
 
-    private Place processInput() {
+    private NavigationPlace processInput() {
         Scanner scanner = new Scanner(System.in);
         String line = scanner.nextLine();
         String command = normalizer.normalize(line);
         Direction dir = Direction.valueOf(command);
         if (dir != null){
-            Place next = currentPlace.getExitInDirection(dir);
+            NavigationPlace next = currentPlace.goInDirection(dir);
             if(next != null) {
                 out.println("Gehe in Richtung "+dir+" nach "+next.getName()+".");
                 return next;
